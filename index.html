@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>EMT Route Learning</title>
+        <link rel = "stylesheet" type = "text/css" href = "./styles/styles.css">
+    </head>
+    <body>
+        <form id = "search-box">
+            <input id = "center-location" placeholder = "Pass in the address of your EMT facility">
+            <input id = "mile-radius" placeholder = "How many miles out is the furthest spot you need to know?">
+            <button id = "submit" >Submit</button>
+        </form>
+        <div id = "map">
+
+        </div>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA84EBjWciqhya_DJ8S_Auc5qNeHs8v2lY&callback=initMap"
+  type="text/javascript"></script>
+        <script type = 'text/javascript' src = "./js/mainPage.js"></script>
+        <script src = "./js/mapScript.js"></script>
+    </body>
+</html>
+
+<!--
+    key: AIzaSyA84EBjWciqhya_DJ8S_Auc5qNeHs8v2lY
+
+    Google Maps API
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA84EBjWciqhya_DJ8S_Auc5qNeHs8v2lY&callback=initMap"
+  type="text/javascript"></script>
+
+  Geocode API basic outline
+  https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,
++Mountain+View,+CA&key=YOUR_API_KEY
+-->
+

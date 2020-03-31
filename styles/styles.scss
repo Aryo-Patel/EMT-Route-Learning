@@ -1,0 +1,34 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    $elementPadding: 10px;
+    $elementMargin: 10px;
+    #search-box{
+        margin: 20px 10px;
+        width: 80%;
+        border: 2px solid #666666;
+        border-radius: 5px;
+        input{
+            padding: $elementPadding;
+            width: 70%;
+            margin: 10px 0px 20px $elementMargin;
+            font-size: 1.2em;
+            display: block;
+        }
+        button{
+            margin: $elementMargin;
+            padding: $elementPadding;
+            &:hover{
+                cursor: pointer;
+            }
+        }
+
+    }
+    #map{
+        height: 500px;
+        width: 100%;
+    }
+}
