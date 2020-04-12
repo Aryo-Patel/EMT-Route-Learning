@@ -11,17 +11,20 @@ submitButton.addEventListener('click', async function(e){
     e.preventDefault();
     let mapResults = mapInfo();
     if(mapResults){
+        console.log(mapResults.radius)
         let address = mapResults.location.split(' ');
         address = address.join('+');
 
         const locInfo = await getLocationInfo(address);
         
         const {lat, lng} = locInfo.results[0].geometry.location;
-        let radius = parseInt(mapResults.mapRadius)*1609.34;
+        console.log(lat, lng);
+        let radius = parseInt(mapResults.radius)*1609.34;
+        console.log(radius);
         createMap({
             center: {lat, lng},
             zoom: 15,
-            draggable: false
+            draggable: true
         }, {radius});
     }
 });
@@ -48,14 +51,14 @@ function displayMap(mapResults){
 function createMap(options, circleOptions){
     map = new google.maps.Map(document.getElementById('map'), options);
     console.log('map created');
-    console.log(options.center);
+    console.log(circleOptions.radius);
     circle = new google.maps.Circle({
-        map: map,
-        center: {lat: options.center.lat, lng: options.center.lng},
-        radius: circleOptions.radius,
-        fillOpacity: 0.9,
-        fillColor: '#FF0000'
+         map: map,
+         center: {lat: Number(options.center.lat), lng: Number(options.center.lng)},
+         radius: circleOptions.radius,
+         fillOpacity: 0,
+         fillColor: '#FF0000'
     });
     console.log('circle created');
-    // map.fitBounds(circle.getBounds());
+    map.fitBounds(circle.getBounds());
 }

@@ -6,6 +6,7 @@ function mapInfo (){
     if(mapCenterLocation.value && mapRadius.value){
         let location = mapCenterLocation.value;
         let radius = mapRadius.value;
+        console.log(radius)
         mapCenterLocation.value = '';
         mapRadius.value = '';
         return {
