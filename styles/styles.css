@@ -29,6 +29,19 @@ body #search-box button:hover {
   cursor: pointer;
 }
 
+body #search-box ul {
+  margin: 5%;
+  max-height: 150px;
+  overflow-y: scroll;
+  list-style-position: inside;
+}
+
+body #search-box ul li:hover {
+  cursor: pointer;
+  color: grey;
+  text-decoration: line-through;
+}
+
 body #map {
   height: 500px;
   width: 100%;

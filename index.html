@@ -6,17 +6,26 @@
     </head>
     <body>
         <form id = "search-box">
-            <input id = "center-location" placeholder = "Pass in the address of your EMT facility">
-            <input id = "mile-radius" placeholder = "How many miles out is the furthest spot you need to know?">
+            <input value = "205 W Green St, Ithaca, NY 14850" id = "center-location" placeholder = "Pass in the address of your EMT facility" required>
+            <ul id = "add-places">
+
+            </ul>
+            <input id = "map-input" placeholder = "Enter all the places you need to get to (add individually or seperate with commas or spaces)" required>
+            <button id = "add">Add</button>
             <button id = "submit" >Submit</button>
         </form>
         <div id = "map">
 
         </div>
+
+        <!--
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA84EBjWciqhya_DJ8S_Auc5qNeHs8v2lY&callback=initMap"
   type="text/javascript"></script>
-        <script type = 'text/javascript' src = "./js/mainPage.js"></script>
         <script src = "./js/mapScript.js"></script>
+-->
+
+        <script type = 'text/javascript' src = "./js/mainPage.js"></script>
+
     </body>
 </html>
 

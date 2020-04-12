@@ -25,6 +25,20 @@ body{
                 cursor: pointer;
             }
         }
+        ul{
+            margin: 5%;
+            max-height: 150px;
+            overflow-y: scroll;
+            list-style-position: inside;
+
+            li{
+                &:hover{
+                    cursor: pointer;
+                    color: grey;
+                    text-decoration: line-through;
+                }
+            }
+        }
 
     }
     #map{
