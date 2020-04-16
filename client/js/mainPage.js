@@ -8,7 +8,7 @@ add.addEventListener('click', e => mapInfo(e));
 function deletePlace(e) {
     let index = destinations.indexOf(e.target.textContent);
     destinations.splice(index, 1);
-    console.log(destinations);
+
     e.target.parentNode.parentNode.removeChild(e.target.parentNode);
 }
 

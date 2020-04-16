@@ -27,31 +27,32 @@ submitButton.addEventListener('click', async function(e){
             zoom: 15,
             draggable: true
         });
-        console.log(map);
 
 
         let addPlaces = []; //array that gets filled with places the user needs to know how to get to
         //adds circles for all the locations the user needs to be able to get to
         //@todo needa check for places that aren't showing up on the map
         mapResults.places.forEach(async place =>{
-            console.log('executed');
             let placeAddress = place.split(' ').join('+');
             let placeLocInfo =  await getLocationInfo(placeAddress);
             let placeLat = placeLocInfo.results[0].geometry.location.lat;
             let placeLng = placeLocInfo.results[0].geometry.location.lng
             addPlaces.push({placeName: place, lat: placeLat, lng: placeLng});
-            console.log(placeLat, placeLng);
             createCircle(map, {placeLat, placeLng}, place)
         });
 
         //once the map loads, the play button is created
         if(map){
-            let playBtn = document.createElement('button');
-            playBtn.textContent = 'Play!'
-            playBtn.onclick = e => {
-                askRoute({lat, lng}, addPlaces);
+            if(document.getElementById('play-button') == null){
+                let playBtn = document.createElement('button');
+                playBtn.textContent = 'Play!'
+                playBtn.id = 'play-button'
+                playBtn.onclick = e => {
+                    console.log(mapResults.location);
+                    askRoute({lat, lng}, addPlaces, mapResults.location);
+                }
+                placesFound.appendChild(playBtn);
             }
-            placesFound.appendChild(playBtn);
         }
 
 
@@ -64,7 +65,6 @@ async function getLocationInfo(address){
     try{
         let response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${API_KEY}`);
         response = await response.json();
-        console.log(response);
         return response;
     }catch(err){
         console.log(err);
@@ -75,7 +75,6 @@ async function getLocationInfo(address){
 //loads the map with the required center
 function createMap(options){
     map = new google.maps.Map(document.getElementById('map'), options);
-    console.log('map created');
     return map
 }
 
@@ -92,19 +91,19 @@ function createCircle(map, center, place) {
         fillOpacity: 0.35,
         radius: 30
     });
-    console.log((circle));
 }
 
-
-async function askRoute(origin, possiblePlaces){
+//generates a random place from the user's inputted list
+async function askRoute(origin, possiblePlaces, originPlace){
     const index = parseInt(Math.random()*possiblePlaces.length);
     let destinationPlace = possiblePlaces[index];
 
-    returnRoute(origin, {lat: destinationPlace.lat, lng: destinationPlace.lng}, destinationPlace.placeName);
+    returnRoute(origin, {lat: destinationPlace.lat, lng: destinationPlace.lng}, originPlace, destinationPlace.placeName);
 }
 
-//uses Google's direction service to 
-async function returnRoute(startLatLng, endLatLng, destName){
+//uses Google's direction service to get the routes from the EMT facility to the desired location
+//extracts the route data and sends it to the game script
+async function returnRoute(startLatLng, endLatLng, originName, destName){
     let route;
     directionsService.route({
         origin: startLatLng.lat+','+startLatLng.lng,
@@ -112,8 +111,15 @@ async function returnRoute(startLatLng, endLatLng, destName){
         travelMode: 'DRIVING'
     }, function(response, status){
         if(status === 'OK'){
+            console.log(originName);
             console.log(destName);
-            console.log(response.routes[0].legs[0].steps);
+            let routes = response.routes[0].legs[0].steps;
+            console.log(routes);
+            let instructions = routes.map(route =>{
+                return route.instructions
+            });
+            console.log(instructions);
+            initializeGameBoard(originName, destName, instructions);
         }
         else{
             console.log(status);
@@ -121,27 +127,3 @@ async function returnRoute(startLatLng, endLatLng, destName){
     })
 }
 
-document.getElementById('test-button').addEventListener('click', async e =>{
-    directionsService.route({
-        origin: 'Disneyland',
-        destination: 'Universal Studios Hollywood',
-        travelMode: 'DRIVING'
-    }, function(response, status){
-        if(status === 'OK'){
-            console.log(response.routes[0].legs[0].steps);
-        }
-        else{
-            console.log(status);
-        }
-    })
-});
-window.onunload = function(){debugger;}
-//    let route = await fetch(`http://maps.googleapis.com/maps/api/directions/json?origin=${startLatLng.lat},${startLatLng.lng}&destination=${endLatLng.lat},${endLatLng.lng}&key=${API_KEY}`, {mode: 'no-cors'});
-// function displayMap(mapResults){
-//     geocoder.geocode({'address': mapResults.location}, (results, status) =>{
-//         if(status === geocoder.maps.GeocoderStatus.OK){
-
-//             fetch()
-//         }
-//     })
-// }
