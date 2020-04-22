@@ -1,0 +1,30 @@
+#play-game-container {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border: 2px solid grey;
+  border-radius: 5px;
+  margin: 20px 10px;
+  width: 80%;
+}
+
+#play-game-container #game-header {
+  text-align: center;
+  font-size: 1.4em;
+  padding: 15px;
+}
+
+#play-game-container #game-board {
+  margin-left: 5%;
+  margin-bottom: 5%;
+}
+
+#play-game-container #game-board li {
+  padding: 10px;
+}
+
+#play-game-container #game-board li span > .inputText {
+  padding: 10px 0;
+  border-radius: 10px;
+  text-align: center;
+}
+/*# sourceMappingURL=gameBoard.css.map */

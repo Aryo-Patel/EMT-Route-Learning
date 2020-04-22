@@ -127,3 +127,4 @@ async function returnRoute(startLatLng, endLatLng, originName, destName){
     })
 }
 
+initializeGameBoard("205 W Green St, Ithaca, NY 14850", "Ithaca Circle Apartments Longview", ["Head <b>east</b> on <b>W Green St</b> toward <b>S Geneva St</b>", "Turn <b>left</b> at the 1st cross street onto <b>S Geneva St</b>", "Turn <b>left</b> at the 2nd cross street onto <b>W Seneca St</b>", "Turn <b>right</b> onto <b>W State St</b>", "Turn <b>left</b> onto <b>Floral Ave</b>", "Turn <b>right</b> onto <b>Elm St</b>", "Turn <b>left</b> onto <b>Chestnut St</b><div style…size:0.9em">"Destination will be on the left</div>"])

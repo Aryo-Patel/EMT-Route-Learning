@@ -1,0 +1,27 @@
+#play-game-container{
+    box-sizing: border-box;
+    border: 2px solid grey;
+    border-radius: 5px;
+    margin: 20px 10px;
+    width: 80%;
+
+    #game-header{
+        text-align: center;
+        font-size: 1.4em;
+        padding: 15px;
+    }
+    #game-board{
+        margin-left: 5%;
+        margin-bottom: 5%;
+
+        li{
+            padding: 10px;
+
+            span>.inputText {
+                padding: 10px 0;
+                border-radius: 10px;
+                text-align: center;
+            }
+        }
+    }
+}
