@@ -27,7 +27,7 @@ function initializeGameBoard(startLocation, endLocation, route){
     createGameHeader(gameHeader, startLocation, endLocation);
     fillGameBoard(gameBoard, route)
 
-    addButton(gameForm);
+    addButtons(gameForm);
     
 }
 
@@ -63,8 +63,8 @@ function styleRoute(route, index) {
         route = route.substring(route.indexOf('>') + 1) //shortens route so it doesn't include first <
         let inputText = route.substring(0, route.indexOf('<'));
         
-        //puts an input element inside the span, giving it dynamic size changing for test purposes change placeholder to value
-        span.innerHTML += `<input id = "${index}-${idCount}" class = "inputText inputGroup${index}" value = "${inputText}" onkeypress = "this.style.width = ((this.value.length + 1)*8 + 10) + 'px';" required>`;                                                       
+        //puts an input element inside the span, giving it dynamic size changing for test purposes change placeholder to value value = "${inputText}"
+        span.innerHTML += `<input id = "${index}-${idCount}" class = "inputText inputGroup${index}"  onkeypress = "this.style.width = ((this.value.length + 1)*8 + 10) + 'px';" required>`;                                                       
         span.id += inputText;
         idCount++;
 
@@ -79,7 +79,7 @@ function styleRoute(route, index) {
     return span;
 }
 
-function addButton(gameForm){
+function addButtons(gameForm){
     //create game button
     let submitButton = document.createElement('BUTTON');
     submitButton.type = 'submit';
@@ -88,6 +88,37 @@ function addButton(gameForm){
     //add the onclick to be prevent default
     submitButton.addEventListener('click', e =>gameSubmit(e, routeArray))
     gameForm.appendChild(submitButton);
+
+    //create check answer button
+    let showAnswerButton = document.createElement('BUTTON');
+    showAnswerButton.innerHTML = 'Show correct answers';
+    
+    showAnswerButton.addEventListener('click', e =>gameSolution(e, routeArray))
+    console.log(routeArray);
+    gameForm.appendChild(showAnswerButton);
+
+}
+
+function gameSolution(e, routeArray) {
+    e.preventDefault();
+
+    const correctOutputs = [];
+    routeArray.forEach(route => { //generates the list of corect outputs in 2D array format
+        route = boldWords(route);
+        correctOutputs.push(route);
+    });
+
+    let liList = document.querySelectorAll('.route-step') //generates a list of all the li's that has input values in them [2D array]
+    liList = Array.from(liList);
+
+    liList.forEach((li, index) => {
+        let inputList = document.querySelectorAll(`.inputGroup${index}`) //now we have an array of all the inputs
+        for(j = 0; j < inputList.length; j++){
+            inputList[j].value = correctOutputs[index][j];
+        }
+    })
+
+
 }
 
 function gameSubmit(e, routeArray){
@@ -137,11 +168,43 @@ function boldWords(route) {
 }
 
 function checkAnswers(userInputValues, correctInputValues){
+    userInputValues = normalizeInputs(userInputValues);
+    correctInputValuues = normalizeInputs(correctInputValues);
     for(let i = 0; i < userInputValues.length; i++){
         for(let j = 0; j < userInputValues[i].length; j++){
+            let input = document.getElementById(`${i}-${j}`);
             if(userInputValues[i][j] !== correctInputValues[i][j]){
-                console.log(userInputValues[i][j]);
+                input.classList.add('wrongAnswer');
+            }
+            else{
+                if(input.classList.contains('wrongAnswer')){
+                    input.classList.remove('wrongAnswer');
+                }
+
             }
         }
     }
+}
+
+function normalizeInputs(inputs){
+    //add to this list to remove things like street, blvd, etc being tacked on to teh end
+    let streetExtensions = ['ave', 'st', 'blvd']
+    for(let i = 0; i < inputs.length; i++){
+        for(let j = 0; j < inputs[i].length; j++){
+            let input = inputs[i][j];
+            input = input.toLowerCase();
+
+            //removes last occurance of any of the street extensions
+            streetExtensions.forEach(extension => {
+                if(input.lastIndexOf(' '+ extension) !== -1){
+                        input = input.slice(0, input.lastIndexOf(extension));
+                }
+            })
+
+            input = input.trim();
+            //updates each element with the normalized version
+            inputs[i][j] = input;
+        }
+    }
+    return inputs;
 }
